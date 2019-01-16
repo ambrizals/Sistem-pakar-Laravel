@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\daerahGejala;
+use DataTables;
+use Response;
 
 class daerahGejalaController extends Controller
 {
@@ -13,7 +16,15 @@ class daerahGejalaController extends Controller
      */
     public function index()
     {
-        //
+        return view('daerahGejala.index', compact('item'));
+    }
+
+    public function list(){
+        $item = daerahGejala::latest()->get();
+        return DataTables::of($item)
+                ->addColumn('action', function($data){
+                    return view('daerahGejala.ajax.action', compact('data'));
+                })->make('true');
     }
 
     /**
@@ -34,7 +45,12 @@ class daerahGejalaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $item = daerahGejala::create($request->all());
+        if ($item) {
+            return Response::json('success',200);
+        } else {
+            return Response::json('error', 400);
+        }
     }
 
     /**
@@ -45,7 +61,12 @@ class daerahGejalaController extends Controller
      */
     public function show($id)
     {
-        //
+        $item = daerahGejala::find($id);
+        if ($item) {
+            return Response::json($item, 200);
+        } else {
+            return Response::json('error', 400);
+        }
     }
 
     /**
@@ -68,7 +89,13 @@ class daerahGejalaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $item = daerahGejala::find($id);
+        $item->update($request->all());
+        if ($item) {
+            return Response::json('success', 200);
+        } else {
+            return Response::json('error', 400);
+        }
     }
 
     /**
@@ -79,6 +106,11 @@ class daerahGejalaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = daerahGejala::find($id);
+        if ($item->delete()){
+            return Response::json('success', 200);
+        } else {
+            return Response::json('error', 400);
+        }
     }
 }

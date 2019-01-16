@@ -1,0 +1,2 @@
+<button type="button" data-toggle="modal" data-target="#ubahDaerahGejala" class="btn btn-primary" data-id="{{ $data->id }}">Ubah Data</button>
+<button type="button" class="btn btn-danger" onclick="hapusDaerahGejala({{ $data->id }})">Hapus Data</button>

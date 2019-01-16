@@ -27,6 +27,6 @@ class CreateDaerahGejala extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('daerah_gejala;');
+        Schema::dropIfExists('daerah_gejala');
     }
 }

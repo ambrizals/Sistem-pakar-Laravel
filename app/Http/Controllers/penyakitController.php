@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Penyakit;
+use Response;
+use DataTables;
 
 class penyakitController extends Controller
 {
@@ -13,7 +16,15 @@ class penyakitController extends Controller
      */
     public function index()
     {
-        //
+        return view('penyakit.index', compact('item'));
+    }
+
+    public function list(){
+        $item = Penyakit::latest()->get();
+        return DataTables::of($item)
+                ->addColumn('action', function($data){
+                    return view('penyakit.ajax.action_index', compact('data'));
+                })->make(true);
     }
 
     /**
@@ -34,7 +45,12 @@ class penyakitController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $item = Penyakit::create($request->all());
+        if ($item) {
+            return Response::json('success', 200);
+        } else {
+            return Response::json('fail', 400);
+        }
     }
 
     /**
@@ -45,7 +61,8 @@ class penyakitController extends Controller
      */
     public function show($id)
     {
-        //
+        $item = Penyakit::with('gejala')->find($id);
+        return view('penyakit.show', compact('item'));
     }
 
     /**
@@ -68,7 +85,13 @@ class penyakitController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $item = Penyakit::find($id);
+        $item->update($request->all());
+        if ($item) {
+            return Response::json('success', 200);
+        } else {
+            return Response::json('fail', 400);
+        }
     }
 
     /**
@@ -79,6 +102,11 @@ class penyakitController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = Penyakit::find($id);
+        if ($item->delete()){
+            return Response::json('success', 200);
+        } else {
+            return Response::json('fail', 400);
+        }
     }
 }

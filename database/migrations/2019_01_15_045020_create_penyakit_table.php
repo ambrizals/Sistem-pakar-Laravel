@@ -17,12 +17,12 @@ class CreatePenyakitTable extends Migration
             $table->increments('id');
             $table->integer('tanaman')->unsigned();
             $table->string('nama_penyakit');
-            $table->text('kulturteknis');
-            $table->text('fisikmekanis');
-            $table->text('kimiawi');
-            $table->text('hayati');
+            $table->text('kulturteknis')->nullable();
+            $table->text('fisikmekanis')->nullable();
+            $table->text('kimiawi')->nullable();
+            $table->text('hayati')->nullable();
             $table->timestamps();
-            $table->foreign('tanaman')->references('id')->on('penyakit');
+            $table->foreign('tanaman')->references('id')->on('tanaman');
         });
     }
 

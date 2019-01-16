@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Gejala;
+use Response;
 
 class gejalaController extends Controller
 {
@@ -13,7 +15,7 @@ class gejalaController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -34,7 +36,12 @@ class gejalaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $item = Gejala::create($request->all);
+        if ($item) {
+            return Response::json('success', 200);
+        } else {
+            return Response::json('fail', 400);
+        }
     }
 
     /**
@@ -68,7 +75,13 @@ class gejalaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $item = Gejala::find($id);
+        $item->update($request->all());
+        if ($item) {
+            return Response::json('success', 200);
+        } else {
+            return Response::json('fail', 400);
+        }
     }
 
     /**
@@ -79,6 +92,11 @@ class gejalaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = Gejala::find($id);
+        if ($item->delete()){
+            return Response::json('success', 200);
+        } else {
+            return Response::json('fail', 400);
+        }
     }
 }
