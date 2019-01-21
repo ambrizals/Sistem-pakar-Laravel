@@ -12,11 +12,12 @@
 				<button type="button" data-toggle="modal" data-target="#tambahPenyakit" class="btn btn-primary btn-block">Tambah Penyakit</button>
 			</div>
 		</div>
-
+		<hr>
 		<table data-url="{{ route('penyakit.list') }}" data-token="{{ csrf_token() }}" id="penyakitTable" cellspacing="0">
 			<thead>
 				<tr>
-					<th class="col-8">Nama Penyakit</th>
+					<th class="col-6">Nama Penyakit</th>
+					<th class="col-2">Tanaman</th>
 					<th class="col-4">Aksi</th>
 				</tr>
 			</thead>
@@ -41,7 +42,7 @@
 				<div class="modal-body">
 					<div class="form-group">
 						<label for="tanaman">Tanaman</label>
-						<input type="text" class="form-control" id="tanaman" name="tanaman" placeholder="Pilih Nama Tanaman" required="required">
+						{{ Form::select('tanaman', $tanaman,null, ['class' => 'form-control']) }}
 					</div>
 					<div class="form-group">
 						<label for="nama_penyakit">Nama Penyakit</label>
@@ -82,6 +83,7 @@
         ajax: $('#penyakitTable').data('url'),
         columns: [
             { data: 'nama_penyakit', name:'nama_penyakit'},
+            { data: 'tanaman.nama', name: 'tanaman' },
             { data: 'action', name:'action'}
         ]
     });

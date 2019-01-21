@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Penyakit;
+use App\Tanaman;
 use Response;
 use DataTables;
 
@@ -16,11 +17,12 @@ class penyakitController extends Controller
      */
     public function index()
     {
-        return view('penyakit.index', compact('item'));
+        $tanaman = Tanaman::get()->pluck('nama','id');
+        return view('penyakit.index', compact('tanaman'));
     }
 
     public function list(){
-        $item = Penyakit::latest()->get();
+        $item = Penyakit::with('tanaman')->latest()->get();
         return DataTables::of($item)
                 ->addColumn('action', function($data){
                     return view('penyakit.ajax.action_index', compact('data'));

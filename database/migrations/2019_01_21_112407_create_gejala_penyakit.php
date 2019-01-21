@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGejalaTable extends Migration
+class CreateGejalaPenyakit extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateGejalaTable extends Migration
      */
     public function up()
     {
-        Schema::create('gejala', function (Blueprint $table) {
+        Schema::create('gejala_penyakit', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('daerah_gejala')->unsigned();
-            $table->string('nama_gejala');
+            $table->integer('gejala')->unsigned();
+            $table->integer('penyakit')->unsigned();
             $table->timestamps();
-            $table->foreign('daerah_gejala')->references('id')->on('daerahGejala');
+            $table->foreign('gejala')->references('id')->on('gejala');
+            $table->foreign('penyakit')->references('id')->on('penyakit');
         });
     }
 
@@ -29,6 +30,6 @@ class CreateGejalaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gejala');
+        Schema::dropIfExists('gejala_penyakit');
     }
 }

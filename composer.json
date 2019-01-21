@@ -10,10 +10,11 @@
     "require": {
         "php": "^7.1.3",
         "fideloper/proxy": "^4.0",
+        "kylekatarnls/laravel-carbon-2": "^1.0.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
+        "laravelcollective/html": "^5.4.0",
         "nesbot/carbon": "2.10.0 as 1.34.0",
-        "kylekatarnls/laravel-carbon-2": "^1.0.0",
         "yajra/laravel-datatables-oracle": "^8.9"
     },
     "require-dev": {

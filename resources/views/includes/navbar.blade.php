@@ -13,8 +13,28 @@
         <li class="nav-item">
           <a class="nav-link" href="#">About</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+      </ul>
+    </div>
+
+    <div class="my-2 my-lg-0">
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            @auth
+            Panel
+            @else
+            Login
+            @endauth
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="navbarDropdown">
+            @auth
+            <a class="dropdown-item" href="{{ route('tanaman.index') }}">Tanaman</a>
+            <a class="dropdown-item" href="{{ route('daerah_gejala.index') }}">Daerah Gejala</a>
+            <a class="dropdown-item" href="{{ route('penyakit.index') }}">Penyakit</a>
+            @else
+            <a class="dropdown-item" href="{{route('login') }}">Login</a>
+            @endauth
+          </div>
         </li>
       </ul>
     </div>
