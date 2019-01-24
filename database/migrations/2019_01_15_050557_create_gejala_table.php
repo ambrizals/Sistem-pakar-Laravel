@@ -15,9 +15,11 @@ class CreateGejalaTable extends Migration
     {
         Schema::create('gejala', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('tanaman')->unsigned();
             $table->integer('daerah_gejala')->unsigned();
             $table->string('nama_gejala');
             $table->timestamps();
+            $table->foreign('tanaman')->references('id')->on('tanaman');
             $table->foreign('daerah_gejala')->references('id')->on('daerahGejala');
         });
     }

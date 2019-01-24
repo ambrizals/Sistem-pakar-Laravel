@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Gejala;
+use App\Tanaman;
 use Response;
 
 class gejalaController extends Controller
@@ -15,7 +16,8 @@ class gejalaController extends Controller
      */
     public function index()
     {
-        
+        $tanaman = Tanaman::get();
+        return view('gejala.index', compact('tanaman'));
     }
 
     /**
@@ -52,7 +54,12 @@ class gejalaController extends Controller
      */
     public function show($id)
     {
-        //
+        $item = Gejala::with(['tanaman','daerahGejala'])->find($id);
+        if ($item) {
+            return Response::json($item, 200);
+        } else {
+            return Response::json('error', 400);
+        }
     }
 
     /**

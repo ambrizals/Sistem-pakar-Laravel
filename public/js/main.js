@@ -201,7 +201,7 @@ function hapusPenyakit(id){
     token = $('#penyakitTable').data('token');
     swal({
         title: 'Apa anda yakin ?',
-        text: "Ingin menghapus daerah gejala yang dipilih?",
+        text: "Ingin menghapus penyakit yang dipilih?",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -240,3 +240,82 @@ function hapusPenyakit(id){
         }
     })
 }
+$("#setGejala_penyakit #gejala").autocomplete({
+    source: $("#setGejala_penyakit #gejala").data('url'),
+    minLength: 1,
+});
+$('#setGejala_penyakit #gejala').autocomplete("option", "appendTo", "#setGejala_penyakit form");
+function hapusGejala_penyakit(id){
+    token = $('#gejalaList_penyakit').data('token');
+    delurl = $('#gejalaList_penyakit').data('delete');
+    swal({
+        title: 'Apa anda yakin ?',
+        text: "Ingin menghapus gejala yang dipilih pada penyakit ini?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Hapus Data'
+    }).then((result) => {
+        if (result.value) {
+            url = delurl+'/'+id + '/gejala';
+            $.ajax({
+                header: {
+                    'X-CSRF-TOKEN': token
+                },  
+                method: "DELETE",
+                url: url,
+                data: {
+                    _token : token
+                },
+                datatype: 'json',
+            }).done(function(){
+                toast({
+                    type: 'success',
+                    title: 'Data berhasil dihapus!'
+                });
+                gejalaList_penyakit.ajax.reload();
+            }).fail(function(){
+                toast({
+                    type: 'error',
+                    title: 'Perubahan Tidak Disimpan!'
+                });
+            });
+        } else {
+            toast({
+                type: 'error',
+                title: 'Aksi dibatalkan!'
+            });
+        }
+    })
+}
+$(document).on('submit', '#setGejala_penyakit form', function(e) {
+    var form_action = $('#setGejala_penyakit form').attr('action');
+    var token = $('#setGejala_penyakit form').find("input[name=_token]").val();
+    var formdata = $('#setGejala_penyakit form').serialize();
+    e.preventDefault();
+    $.ajax({
+        header: {
+            'X-CSRF-TOKEN': token
+        },   
+        method: "POST",
+        url : form_action,
+        data : formdata,
+        datatype : 'json',
+        success : function(){
+            toast({
+                type: 'success',
+                title: 'Data berhasil disimpan!'
+            });
+            gejalaList_penyakit.ajax.reload();
+            $('#setGejala_penyakit form')[0].reset();
+        },
+        error : function(){
+            toast({
+                type: 'error',
+                title: 'Perubahan Tidak Disimpan!'
+            });
+            gejalaList_penyakit.ajax.reload();
+        }
+    });
+});

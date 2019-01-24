@@ -18,8 +18,12 @@ Route::group(['prefix' => 'admin'], function() {
     	Route::resource('tanaman','tanamanController');
     	Route::group(['prefix' => 'penyakit'], function() {
     	    Route::get('list','penyakitController@list')->name('penyakit.list');
-    	});
-    	Route::resource('penyakit','penyakitController');
+            Route::post('{id}/gejala','penyakitController@setGejala')->name('penyakit.setgejala');
+            Route::get('{id}/gejalaSuggest', 'penyakitController@gejalaSuggest')->name('penyakit.gejalaSuggest');
+            Route::get('{id}/gejalaList','penyakitController@gejalaList')->name('penyakit.gejalalist');
+            Route::delete('{id}/gejala','penyakitController@destroyGejala')->name('penyakit.delgejala');
+    	});         
+    	Route::resource('penyakit','penyakitController');      
     	Route::group(['prefix' => 'daerah_gejala'], function() {
     	    Route::get('list','daerahGejalaController@list')->name('daerah_gejala.list');
     	});

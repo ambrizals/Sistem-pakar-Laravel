@@ -15,6 +15,6 @@ class Penyakit extends Model
     }
 
     public function gejala(){
-    	return $this->hasMany('App\Gejala','penyakit','id');
+    	return $this->hasMany('App\gejalaPenyakit','penyakit','id');
     }
 }
