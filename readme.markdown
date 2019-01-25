@@ -10,3 +10,5 @@ Di Indonesia tanaman bawang dan cabai adalah salah satu jenis tanaman hortikultu
 - Jalankan perintah composer dump-autoload untuk melakukan indexing file.
 - Jalankan perintah php artisan migrate --seed untuk membuat tabel baru pada database yang telah anda masukkan pada konfigurasi file .env
 - Import db_rev1.sql untuk melihat contoh data yang sudah disediakan.
+- Untuk mencoba menggunakan aplikasi ini dengan menggunakan webserver yang disediakan laravel ketik php artisan serve pada command line dan alamat url akan ditampilkan pada command line.
+- Untuk mencoba menggunakan aplikasi ini dengan menggunakan webserver yang anda miliki, ketik http://localhost/public atau http://localhost/nama_project/public.
