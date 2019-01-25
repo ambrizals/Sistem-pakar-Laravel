@@ -65,7 +65,7 @@ class penyakitController extends Controller
      */
     public function show($id)
     {
-        $daerahGejala = daerahGejala::get()->pluck('daerah_gejala','id');
+        $daerahGejala = daerahGejala::get();
         $item = Penyakit::find($id);
         return view('penyakit.show', compact('item', 'daerahGejala'));
     }
@@ -156,7 +156,7 @@ class penyakitController extends Controller
     public function gejalaSuggest(Request $request, $id){
         if ($request->has('term')){
             $term = $request->get('term');
-            $data = Gejala::select('nama_gejala')->where('tanaman',$id)->where('nama_gejala','like','%'.$term.'%')->get();
+            $data = Gejala::select('nama_gejala')->where('tanaman',$id)->where('nama_gejala','like','%'.$term.'%')->where('daerah_gejala',$request->daerah)->get();
             if ($data->count() > 0) {
                 foreach ($data as $item) {
                     $dat[] = $item->nama_gejala;

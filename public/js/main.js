@@ -240,11 +240,13 @@ function hapusPenyakit(id){
         }
     })
 }
-$("#setGejala_penyakit #gejala").autocomplete({
-    source: $("#setGejala_penyakit #gejala").data('url'),
-    minLength: 1,
-});
-$('#setGejala_penyakit #gejala').autocomplete("option", "appendTo", "#setGejala_penyakit form");
+$('#setGejala_penyakit #daerah_gejala').on('change', function(){
+    $("#setGejala_penyakit #gejala").autocomplete({
+        source: $("#setGejala_penyakit #gejala").data('url') +'?daerah='+ $('#setGejala_penyakit #daerah_gejala option:selected').val(),
+        minLength: 1,
+    });
+    $('#setGejala_penyakit #gejala').autocomplete("option", "appendTo", "#setGejala_penyakit form");
+})
 function hapusGejala_penyakit(id){
     token = $('#gejalaList_penyakit').data('token');
     delurl = $('#gejalaList_penyakit').data('delete');
@@ -290,10 +292,10 @@ function hapusGejala_penyakit(id){
     })
 }
 $(document).on('submit', '#setGejala_penyakit form', function(e) {
+    e.preventDefault();
     var form_action = $('#setGejala_penyakit form').attr('action');
     var token = $('#setGejala_penyakit form').find("input[name=_token]").val();
     var formdata = $('#setGejala_penyakit form').serialize();
-    e.preventDefault();
     $.ajax({
         header: {
             'X-CSRF-TOKEN': token
@@ -316,6 +318,122 @@ $(document).on('submit', '#setGejala_penyakit form', function(e) {
                 title: 'Perubahan Tidak Disimpan!'
             });
             gejalaList_penyakit.ajax.reload();
+        }
+    });
+});
+$(document).on('submit', '#tambahGejala form', function(e) {
+    $('#tambahGejala').modal('hide');
+    $('.overlay').css('display','block');
+    var form_action = $('#tambahGejala form').attr('action');
+    var token = $('#tambahGejala form').find("input[name=_token]").val();
+    var formdata = $('#tambahGejala form').serialize();
+    e.preventDefault();
+    $.ajax({
+        header: {
+            'X-CSRF-TOKEN': token
+        },   
+        method: "POST",
+        url : form_action,
+        data : formdata,
+        datatype : 'json',
+        success : function(){
+            toast({
+                type: 'success',
+                title: 'Data berhasil disimpan!'
+            });
+            gejalaTable.ajax.reload();
+            $('#tambahGejala form')[0].reset();
+        },
+        error : function(){
+            toast({
+                type: 'error',
+                title: 'Perubahan Tidak Disimpan!'
+            });
+            gejalaTable.ajax.reload();
+        }
+    });
+});
+function hapusGejala(id){
+    token = $('#gejalaTable').data('token');
+    swal({
+        title: 'Apa anda yakin ?',
+        text: "Ingin menghapus gejala yang dipilih?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Hapus Data'
+    }).then((result) => {
+        if (result.value) {
+            url = pageuri+'/'+id;
+            $.ajax({
+                header: {
+                    'X-CSRF-TOKEN': token
+                },  
+                method: "DELETE",
+                url: url,
+                data: {
+                    _token : token
+                },
+                datatype: 'json',
+            }).done(function(){
+                toast({
+                    type: 'success',
+                    title: 'Data berhasil dihapus!'
+                });
+                gejalaTable.ajax.reload();
+            }).fail(function(){
+                toast({
+                    type: 'error',
+                    title: 'Perubahan Tidak Disimpan!'
+                });
+            });
+        } else {
+            toast({
+                type: 'error',
+                title: 'Aksi dibatalkan!'
+            });
+        }
+    })
+}
+$('#ubahGejala').on('shown.bs.modal', function(e){
+    var url = pageuri + '/' + $(e.relatedTarget).data('id');
+    $.get(url, function(data){
+        $('#ubahGejala').find('form').attr('action', url);
+        $('#ubahGejala').find('#nama_gejala').val(data.nama_gejala);
+        $('#ubahGejala').find('#tanaman option[value='+data.tanaman.id+']').prop('selected',true);
+        $('#ubahGejala').find('#daerah_gejala option[value='+data.daerah_gejala.id+']').prop('selected',true);
+    });
+});
+$(document).on('submit', '#ubahGejala form', function(e) {
+    $('#ubahGejala').modal('hide');
+    $('.overlay').css('display','block');
+    var form_action = $('#ubahGejala form').attr('action');
+    var token = $('#ubahGejala form').find("input[name=_token]").val();
+    var formdata = $('#ubahGejala form').serialize();
+    e.preventDefault();
+    $.ajax({
+        header: {
+            'X-CSRF-TOKEN': token
+        },   
+        method: "PUT",
+        url : form_action,
+        data : formdata,
+        datatype : 'json',
+        success : function(){
+            toast({
+                type: 'success',
+                title: 'Data berhasil disimpan!'
+            });
+            gejalaTable.ajax.reload();
+            $('#ubahGejala form')[0].reset();
+        },
+        error : function(){
+            toast({
+                type: 'error',
+                title: 'Perubahan Tidak Disimpan!'
+            });
+            gejalaTable.ajax.reload();
         }
     });
 });

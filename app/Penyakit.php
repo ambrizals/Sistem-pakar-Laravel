@@ -14,7 +14,11 @@ class Penyakit extends Model
     	return $this->belongsTo('App\Tanaman','tanaman','id');
     }
 
-    public function gejala(){
+    public function gejalaPenyakit(){
     	return $this->hasMany('App\gejalaPenyakit','penyakit','id');
+    }
+
+    public function gejala(){
+    	return $this->hasMany('App\Gejala','penyakit','id');
     }
 }

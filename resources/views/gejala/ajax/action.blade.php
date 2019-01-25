@@ -1,0 +1,2 @@
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ubahGejala" data-id="{{ $data->id }}">Lihat Data</button>
+<button type="button" class="btn btn-danger" onclick="hapusGejala({{ $data->id }})">Hapus Data</button>

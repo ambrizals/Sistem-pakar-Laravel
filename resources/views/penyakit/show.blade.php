@@ -5,9 +5,11 @@
 		{{ $item->nama_penyakit }}
 	</div>
 	<div class="card-body">
+		@auth
 		<form action="{{ route('penyakit.update', $item->id) }}" method="POST">
 			{{ csrf_field() }}
 			{{ method_field('PUT') }}
+		@endauth
 			<div class="form-group">
 				<label for="nama_penyakit">Nama Penyakit</label>
 				<input type="text" name="nama_penyakit" class="form-control" value="{{ $item->nama_penyakit }}">
@@ -28,9 +30,12 @@
 				<label for="hayati">Hayati</label>
 				<textarea class="form-control" name="hayati">{{ $item->hayati }}</textarea>
 			</div>
+			@auth
 			<button type="submit" class="btn btn-primary btn-block">Simpan Perubahan</button>
 		</form>
+		@endauth
 	</div>
+	@auth
 	<div class="card-footer" id="setGejala_penyakit">
 		<form action="{{ route('penyakit.setgejala', $item->id) }}" method="POST">
 			{{ csrf_field() }}
@@ -38,7 +43,12 @@
 			<input type="hidden" name="tanaman" value="{{ $item->tanaman }}">
 			<div class="row">
 				<div class="col-4">	
-					{{ Form::select('daerah_gejala',$daerahGejala, null, ['class' => 'form-control']) }}
+					<select id="daerah_gejala" class="form-control" name="daerah_gejala">
+						<option disabled="disabled" selected="selected">-- Pilih Daerah Gejala --</option>
+						@foreach($daerahGejala as $daerahGejala)
+						<option value="{{ $daerahGejala->id }}">{{ $daerahGejala->daerah_gejala }}</option>
+						@endforeach
+					</select>
 				</div>
 				<div class="col-6">
 					<input type="text" name="gejala" id="gejala" placeholder="Cari nama gejala" data-url="{{ route('penyakit.gejalaSuggest', $item->tanaman) }}" class="form-control">
@@ -49,6 +59,7 @@
 			</div>
 		</form>
 	</div>
+	@endauth
 </div>
 
 <div class="card">

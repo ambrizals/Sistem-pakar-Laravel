@@ -8,7 +8,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="#">Home</a>
+          <a class="nav-link" href="{{ route('diagnosa.index') }}">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">About</a>
@@ -31,6 +31,7 @@
             <a class="dropdown-item" href="{{ route('tanaman.index') }}">Tanaman</a>
             <a class="dropdown-item" href="{{ route('daerah_gejala.index') }}">Daerah Gejala</a>
             <a class="dropdown-item" href="{{ route('penyakit.index') }}">Penyakit</a>
+            <a class="dropdown-item" href="{{ route('gejala.index') }}">Gejala</a>
             @else
             <a class="dropdown-item" href="{{route('login') }}">Login</a>
             @endauth

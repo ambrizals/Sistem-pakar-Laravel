@@ -12,6 +12,11 @@
 */
 
 Route::get('/', 'diagnosaController@index')->name('diagnosa.index');
+Route::get('diagnostic/{id}','diagnosaController@preDiagnostic')->name('diagnosa.preform');
+Route::post('diagnostic/{id}','diagnosaController@postDiagnostic')->name('diagnosa.start');
+Route::get('penyakit/{id}','diagnosaController@penyakit')->name('detail.penyakit');
+Route::get('penyakit/{id}/gejalalist','diagnosaController@gejalaList')->name('detail.penyakit.gejala');
+Route::get('daftarpenyakit/{id}','diagnosaController@daftarPenyakit')->name('daftar.penyakit');
 
 Route::group(['prefix' => 'admin'], function() {
     Route::middleware(['auth'])->group(function() {
@@ -28,11 +33,12 @@ Route::group(['prefix' => 'admin'], function() {
     	    Route::get('list','daerahGejalaController@list')->name('daerah_gejala.list');
     	});
     	Route::resource('daerah_gejala','daerahGejalaController');
+        Route::group(['prefix' => 'gejala'], function() {
+            Route::get('list','gejalaController@listGejala')->name('gejala.list');
+        });
     	Route::resource('gejala','gejalaController');
     });
 });
-
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

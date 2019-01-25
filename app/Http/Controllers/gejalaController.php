@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Gejala;
+use App\daerahGejala;
 use App\Tanaman;
 use Response;
+use DataTables;
 
 class gejalaController extends Controller
 {
@@ -16,10 +18,18 @@ class gejalaController extends Controller
      */
     public function index()
     {
-        $tanaman = Tanaman::get();
-        return view('gejala.index', compact('tanaman'));
+    	$tanaman = Tanaman::get()->pluck('nama','id');
+    	$daerahGejala = daerahGejala::get()->pluck('daerah_gejala','id');
+        return view('gejala.index', compact('tanaman','daerahGejala'));
     }
 
+    public function listGejala(){
+    	$item = Gejala::with(['daerahGejala','tanaman'])->latest()->get();
+    	return DataTables::of($item)
+    			->addColumn('action', function($data){
+    				return view('gejala.ajax.action', compact('data'));
+    			})->make(true);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -38,7 +48,7 @@ class gejalaController extends Controller
      */
     public function store(Request $request)
     {
-        $item = Gejala::create($request->all);
+        $item = Gejala::create($request->all());
         if ($item) {
             return Response::json('success', 200);
         } else {
